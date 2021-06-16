@@ -45,12 +45,27 @@ public class Receipt {
         }
     }
 
-    private void addItem(String quote) {
-        Item item = new Item(quote);
-        boolean added = items.add(item);
-        if (added) {
-            totalAmount += item.calculatePrice();
-            totalTax += item.salesTax();
+    /**
+     * Method to add a quote to the reciept from given quote, and update the tax and
+     * total amount if quote is inserted
+     * 
+     * @param quote quote to be added as Item to the reciept
+     */
+    public void addItem(String quote) {
+        try {
+            Item item = new Item(quote);
+            boolean itemAdded = false;
+            // Add Item only if it is valid, If not valid eventually it will be collected by
+            // Garbage collector - sice no references will be there.
+            if (item.isValid()) {
+                itemAdded = items.add(item);
+            }
+            if (itemAdded) {
+                totalAmount += item.calculatePrice();
+                totalTax += item.salesTax();
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid Input Detected");
         }
     }
 

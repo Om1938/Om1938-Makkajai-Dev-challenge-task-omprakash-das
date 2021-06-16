@@ -7,7 +7,7 @@ public class Item {
     private static final String UNUSED = "unused";
 
     /**
-     * Static list for checking exempted items
+     * Static list for checking exempted items.
      */
     static String[] exemptedItems = new String[] { "book", "books", "chocolate", "chocolates", "pill", "pills",
             "medicine", "medicines" };
@@ -19,8 +19,10 @@ public class Item {
     private boolean isImported;
     private boolean isExempted;
 
+    private boolean isValid = false;
+
     /**
-     * Private constructor so that objects cannot be creating using Default
+     * Private constructor so that objects cannot be creating using Default.
      * constructor.
      */
     @SuppressWarnings(UNUSED)
@@ -34,21 +36,27 @@ public class Item {
     }
 
     /**
-     * Constructor to parse item from the given quote
+     * Constructor to parse item from the given quote.
      * 
-     * @param quote - string to parse into Item
+     * @param quote - string to parse into Item.
      */
     public Item(String quote) {
-        String[] string = quote.split(" ");
-        this.quantity = Integer.parseInt(string[0]);
-        isImported = quote.contains("imported");
-        isExempted = isExempted(quote);
-        if (!quote.contains(" at ")) {
-            System.out.println("Invalid Quote");
-        } else {
-            int atIndex = quote.lastIndexOf("at");
-            name = quote.substring(1, atIndex - 1);
-            price = Float.parseFloat((quote.substring(atIndex + 2)));
+        try {
+            String[] string = quote.split(" ");
+            this.quantity = Integer.parseInt(string[0]);
+            isImported = quote.contains("imported");
+            isExempted = isExempted(quote);
+            if (!quote.contains(" at ")) {
+                throw new Exception("Invalid Quote");
+            } else {
+                int atIndex = quote.lastIndexOf("at");
+                name = quote.substring(1, atIndex - 1);
+                price = Float.parseFloat((quote.substring(atIndex + 2)));
+                isValid = true;
+            }
+        } catch (Exception e) {
+            isValid = false;
+            System.out.println("Item not Added");
         }
     }
 
@@ -60,8 +68,8 @@ public class Item {
     /**
      * Utility function for check if the quote is in exempted items.
      * 
-     * @param quote - string to parse and check if its exempted
-     * @return true if item is exempted from sales tax, else false
+     * @param quote - string to parse and check if its exempted.
+     * @return true if item is exempted from sales tax, else false.
      */
     private static boolean isExempted(String quote) {
         for (String string : exemptedItems) {
@@ -83,7 +91,7 @@ public class Item {
 
     /**
      * 
-     * @return the sales tax applied on the item
+     * @return the sales tax applied on the item.
      * 
      *         BigDecimal is used for rounding of to next 0.05.
      */
@@ -106,30 +114,30 @@ public class Item {
     }
 
     /**
-     * Getter for Price
+     * Getter for Price.
      * 
-     * @return price of individual item
+     * @return price of individual item.
      */
 
-    private float getPrice() {
+    public float getPrice() {
         return price;
     }
 
     /**
      * Getter for Name
      * 
-     * @return name of item
+     * @return name of item.
      */
-    private String getName() {
+    public String getName() {
         return name;
     }
 
     /**
      * Getter for if the item is imported
      *
-     * @return true if item is Imported , else false
+     * @return true if item is Imported , else false.
      */
-    private boolean isImported() {
+    public boolean isImported() {
         return this.isImported;
     }
 
@@ -138,8 +146,17 @@ public class Item {
      *
      * @return true if item is exempted from sales tax.
      */
-    private boolean isExempted() {
+    public boolean isExempted() {
         return isExempted;
+    }
+
+    /**
+     * Getter for if the item is created from a valid quote
+     *
+     * @return true if item is created from a valid quote, else false;
+     */
+    public boolean isValid() {
+        return isValid;
     }
 
 }

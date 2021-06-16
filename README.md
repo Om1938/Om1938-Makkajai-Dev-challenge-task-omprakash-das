@@ -12,3 +12,16 @@ JAR File
 ## Question Attempted
 
 - `Sales Tax`
+
+## Output Format
+
+The 3 given cases in question will run (Hardcoded).
+
+- First case runs as Array Input
+- Other two run as File input stored in lib folder.
+
+ After that Program will promt user input as `Enter the Number of quotes : `Enter the number of quotes you want to enter.
+
+ Enter N quotes in [ `quantity name` at `price` ] format.
+ 
+ After Entering quotes the output will be printed.
